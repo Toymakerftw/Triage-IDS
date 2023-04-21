@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Blocked IP Addresses</title>
+  </head>
+  <body>
+    <h1>Blocked IP Addresses</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Unblock</th>
+        </tr>
+      </thead>
+      <tbody id="blocked-devices">
+        <!-- Populated by JavaScript -->
+      </tbody>
+    </table>
+    <script>
+      // Send an AJAX request to the server to get the list of blocked devices
+      fetch('/blocked_devices')
+        .then(response => response.json())
+        .then(data => {
+          // Loop through the list of blocked devices and add them to the table
+          data.forEach(device => {
+            const tr = document.createElement('tr');
+            const td1 = document.createElement('td');
+            td1.textContent = device.ip_address;
+            const td2 = document.createElement('td');
+            const button = document.createElement('button');
+            button.textContent = 'Unblock';
+            button.addEventListener('click', () => {
+              // Send an AJAX request to the server to unblock the device
+              fetch(`/unblock_device?ip_address=${device.ip_address}`)
+                .then(() => {
+                  // Remove the row from the table
+                  tr.remove();
+                })
+                .catch(error => {
+                  console.error(error);
+                  alert('Error unblocking device.');
+                });
+            });
+            td2.appendChild(button);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            document.getElementById('blocked-devices').appendChild(tr);
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          alert('Error getting blocked devices.');
+        });
+    </script>
+  </body>
+</html>
