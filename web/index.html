@@ -1,57 +1,60 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>Blocked IP Addresses</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" integrity="sha384-ZRnRvZJrcKjckzNl5n9UM9NlNbh+PsuvyWtkSK5/5bDk+ziZus5vyI2HqHSrLo1D" crossorigin="anonymous">
+
+    <title>Blocked Devices</title>
   </head>
   <body>
-    <h1>Blocked IP Addresses</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>IP Address</th>
-          <th>Unblock</th>
-        </tr>
-      </thead>
-      <tbody id="blocked-devices">
-        <!-- Populated by JavaScript -->
-      </tbody>
-    </table>
-    <script>
-      // Send an AJAX request to the server to get the list of blocked devices
-      fetch('/blocked_devices')
-        .then(response => response.json())
-        .then(data => {
-          // Loop through the list of blocked devices and add them to the table
-          data.forEach(device => {
-            const tr = document.createElement('tr');
-            const td1 = document.createElement('td');
-            td1.textContent = device.ip_address;
-            const td2 = document.createElement('td');
-            const button = document.createElement('button');
-            button.textContent = 'Unblock';
-            button.addEventListener('click', () => {
-              // Send an AJAX request to the server to unblock the device
-              fetch(`/unblock_device?ip_address=${device.ip_address}`)
-                .then(() => {
-                  // Remove the row from the table
-                  tr.remove();
-                })
-                .catch(error => {
-                  console.error(error);
-                  alert('Error unblocking device.');
-                });
-            });
-            td2.appendChild(button);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            document.getElementById('blocked-devices').appendChild(tr);
-          });
-        })
-        .catch(error => {
-          console.error(error);
-          alert('Error getting blocked devices.');
-        });
-    </script>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Blocked Devices</h1>
+
+        <div class="row mb-4">
+            <div class="col">
+                <form method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="device" placeholder="Enter device IP address" aria-label="Enter device IP address" required>
+                        <button type="submit" class="btn btn-primary ms-2" name="action" value="block">Block Device</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if blocked_devices %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Device IP Address</th>
+                        <th>Unblock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for device in blocked_devices %}
+                        <tr>
+                            <td>{{ device }}</td>
+                            <td>
+                                <form method="post">
+                                    <button type="submit" class="btn btn-danger" name="action" value="unblock">Unblock</button>
+                                    <input type="hidden" name="device" value="{{ device }}">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                No devices are currently blocked.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQyDwN+HdiG5z5ne5tr5QJDxhZ5L5qrYwnDm1Wg6a/E3yPm5yv/feMEmW8NpBZ6X" crossorigin="anonymous"></script>
   </body>
 </html>

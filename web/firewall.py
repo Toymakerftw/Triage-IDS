@@ -11,13 +11,7 @@ def block_devices(devices):
     Blocks a list of devices using firewalld
     """
     for device in devices:
-        # Check if device is already blocked
-        cmd = ["sudo", "firewall-cmd", "--list-rich-rules"]
-        output = subprocess.run(cmd, check=True, capture_output=True, text=True).stdout
-        if f"source address=\"{device}\"" in output:
-            continue
-        # Block device
-        cmd = ["sudo", "firewall-cmd", "--permanent", f"--add-rich-rule='rule family=\"ipv4\" source address=\"{device}\" reject'"]
+        cmd = ["sudo", "firewall-cmd", "--permanent", "--add-rich-rule='rule family=\"ipv4\" source address=\"{}\" reject'".format(device)]
         subprocess.run(cmd, check=True)
 
     # Reload the firewalld configuration to apply the changes
@@ -27,7 +21,7 @@ def unblock_device(device):
     """
     Unblocks a device using firewalld
     """
-    cmd = ["sudo", "firewall-cmd", "--permanent", f"--remove-rich-rule='rule family=\"ipv4\" source address=\"{device}\" reject'"]
+    cmd = ["sudo", "firewall-cmd", "--permanent", "--remove-rich-rule='rule family=\"ipv4\" source address=\"{}\" reject'".format(device)]
     subprocess.run(cmd, check=True)
 
     # Reload the firewalld configuration to apply the changes
@@ -51,7 +45,9 @@ def index():
     if request.method == "POST":
         if request.form.get("action") == "block":
             device = request.form.get("device")
-            block_devices([device])
+            confirmation = request.form.get("confirmation")
+            if confirmation == "yes":
+                block_devices([device])
         elif request.form.get("action") == "unblock":
             device = request.form.get("device")
             unblock_device(device)
@@ -63,7 +59,8 @@ with open(malicious_devices_file, "r") as f:
     malicious_devices = [line.strip() for line in f]
 
 # Block the malicious devices using firewalld
-block_devices(malicious_devices)
+# Commented out to avoid automatically blocking devices
+# block_devices(malicious_devices)
 
 if __name__ == "__main__":
     app.run()
