@@ -39,8 +39,8 @@ Please note that executing these commands requires administrative privileges (ro
 ## Screenshots
 
 
-![Dashboard](https://raw.githubusercontent.com/Toymakerftw/adima/final/Screenshots/Screenshot%20from%202023-07-05%2022-01-52.png)
-![Dashboard](https://raw.githubusercontent.com/Toymakerftw/adima/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-10.png)
-![Packet Details](https://raw.githubusercontent.com/Toymakerftw/adima/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-20.png)
-![Anomalous IP Addresses](https://raw.githubusercontent.com/Toymakerftw/adima/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-32.png)
-![Firewall](https://raw.githubusercontent.com/Toymakerftw/adima/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-32.png)
+![Dashboard](https://raw.githubusercontent.com/Toymakerftw/Triage-IDS/final/Screenshots/Screenshot%20from%202023-07-05%2022-01-52.png)
+![Dashboard](https://raw.githubusercontent.com/Toymakerftw/Triage-IDS/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-10.png)
+![Packet Details](https://raw.githubusercontent.com/Toymakerftw/Triage-IDS/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-20.png)
+![Anomalous IP Addresses](https://raw.githubusercontent.com/Toymakerftw/Triage-IDS/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-32.png)
+![Firewall](https://raw.githubusercontent.com/Toymakerftw/Triage-IDS/final/Screenshots/Screenshot%20from%202023-07-05%2022-10-32.png)
